@@ -7,7 +7,6 @@ async function buildPage() {
   const distPath = path.join(dirPath, 'project-dist');
   await fs.mkdir(distPath);
 
-  // Собираем стили в единый файл
   const stylesPath = path.join(dirPath, 'styles');
   const stylePath = path.join(distPath, 'style.css');
   const styleFiles = await fs.readdir(stylesPath);
@@ -20,7 +19,6 @@ async function buildPage() {
   }));
   await fs.writeFile(stylePath, styleData.join('\n'));
 
-  // Копируем папку assets в project-dist
   const assetsPath = path.join(dirPath, 'assets');
   const assetsDistPath = path.join(distPath, 'assets');
   await fs.mkdir(assetsDistPath);
@@ -31,7 +29,6 @@ async function buildPage() {
     await fs.copyFile(srcPath, destPath);
   }));
 
-  // Заменяем шаблонные теги в файле template.html
   const templatePath = path.join(dirPath, 'template.html');
   const templateData = await fs.readFile(templatePath, 'utf8');
   const componentFiles = await fs.readdir(path.join(dirPath, 'components'));
@@ -46,7 +43,6 @@ async function buildPage() {
     htmlData = htmlData.replace(new RegExp(componentTag, 'g'), componentData);
   }));
 
-  // Сохраняем результат в index.html в папке project-dist
   const indexPath = path.join(distPath, 'index.html');
   await fs.writeFile(indexPath, htmlData);
 }
