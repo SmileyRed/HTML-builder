@@ -6,8 +6,8 @@ function fileHandler() {
 
   const stream = fs.createReadStream(filePath, 'utf8');
   stream.on('data', (data) => {
-    console.log(data)
-  })
-}
+    console.log(data);
+  });
+};
 
 fileHandler();

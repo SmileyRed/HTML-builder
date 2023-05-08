@@ -28,5 +28,5 @@ readable.on('data', (data) => {
   fs.appendFile(filePath, data, (err) => {
     if (err) throw err;
   });
-})
+});
 

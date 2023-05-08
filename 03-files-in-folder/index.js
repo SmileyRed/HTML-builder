@@ -1,4 +1,4 @@
-// const process = require('node:process');
+
 const path = require('node:path');
 const fs = require('node:fs');
 
@@ -24,4 +24,4 @@ fs.readdir(dirPath, (err, files) => {
       }
     });
   });
-})
+});
