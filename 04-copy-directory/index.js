@@ -1,34 +1,37 @@
-const path = require('node:path');
-const fs = require('node:fs');
+const fs = require('fs');
+const path = require('path');
+const pathForDir = path.join(__dirname, 'files-copy');
+const pathFromDir = path.join(__dirname, 'files');
 
-const sourceDir = path.join(__dirname, 'files');
-const targetDir = path.join(__dirname, 'files-copy');
+function copyDir() {
 
-function copyDir(source, target) {
-  fs.mkdir(target, { recursive: true }, (err) => {
-    if (err) {
-      throw err;
-    }
-    fs.readdir(source, { withFileTypes: true }, (err, files) => {
+  fs.rmdir(pathForDir, { recursive: true, force: true }, (err) => {
+    fs.mkdir(pathForDir, { recursive: true }, (err) => {
       if (err) {
-        throw err;
+        console.error(err);
       }
-      files.forEach((file) => {
-        const sourcePath = path.join(source, file.name);
-        const targetPath = path.join(target, file.name);
-        if (file.isDirectory()) {
-          copyDir(sourcePath, targetPath);
-        } else {
-          fs.copyFile(sourcePath, targetPath, (err) => {
-            if (err) {
-              throw err;
-            }
-            console.log(`Copied ${sourcePath} to ${targetPath}`);
-          });
-        }
-      });
-    });
-  });
-};
+      else {
+        createFiles();
+      }
+    })
+  })
 
-copyDir(sourceDir, targetDir);
+  const createFiles = () => {
+    fs.readdir(pathFromDir, (err, files) => {
+      if (err)
+        console.log(err);
+      else {
+        files.forEach(file => {
+          fs.copyFile(pathFromDir + '/' + file, pathForDir + '/' + file, (err) => {
+            if (err) {
+              console.log('error');
+            }
+          });
+        })
+      }
+    })
+  }
+}
+
+copyDir();
+
